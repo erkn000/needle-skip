@@ -1,42 +1,61 @@
-// ---------- Album mosaic (abstract, generated — no real artwork) ----------
+// ---------- Album mosaic (covers; ~25% marked snoozed) ----------
 (function buildMosaic() {
   const mosaic = document.getElementById('mosaic');
   if (!mosaic) return;
 
-  // A restrained palette drawn from the brand accent plus neutrals,
-  // so the mosaic reads as "album grid" without depicting real covers.
-  const palette = [
-    '#4d63ff', '#2f3a66', '#1b1c26', '#f5f6fa',
-    '#8892e8', '#0c0d13', '#3d5afe', '#20212c',
-    '#c7ccff', '#14151d'
-  ];
+  const SIZE = 30;
+  const TOTAL = SIZE * SIZE; // 900
+  const ALBUM_COUNT = 864;
+  const EMPTY_RATE = 0.05;
+  const BLOCKED_RATE = 0.25;
 
-  const cols = window.innerWidth <= 880 ? 10 : 12;
-  const rows = 9;
-  const total = cols * rows;
+  const images = [];
+  for (let n = 1; n <= ALBUM_COUNT; n++) {
+    images.push('assets/albums/album_' + String(n).padStart(3, '0') + '.jpg');
+  }
 
-  for (let i = 0; i < total; i++) {
+  // Fisher–Yates shuffle, then cycle through to fill 900 cells (repeats last ~36).
+  for (let i = images.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = images[i];
+    images[i] = images[j];
+    images[j] = tmp;
+  }
+
+  let imageIndex = 0;
+  const frag = document.createDocumentFragment();
+
+  for (let i = 0; i < TOTAL; i++) {
     const tile = document.createElement('div');
     tile.className = 'tile';
-    const color = palette[Math.floor(Math.random() * palette.length)];
-    tile.style.background = color;
 
-    // Occasionally add a subtle pulse to suggest "live" library data
-    if (Math.random() < 0.08) {
-      tile.classList.add('pulse');
-      tile.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+    if (Math.random() < EMPTY_RATE) {
+      tile.classList.add('empty');
+    } else {
+      tile.style.backgroundImage = 'url("' + images[imageIndex % images.length] + '")';
+      imageIndex++;
+
+      if (Math.random() < BLOCKED_RATE) {
+        tile.classList.add('blocked');
+      }
+
+      if (Math.random() < 0.06) {
+        tile.classList.add('pulse');
+        tile.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+      }
     }
-    mosaic.appendChild(tile);
+
+    frag.appendChild(tile);
   }
+
+  mosaic.appendChild(frag);
 })();
 
-// ---------- Beta signup form ----------
-// NOTE: This currently just confirms client-side. To actually collect
-// emails, wire the fetch() call below to your provider (Mailchimp,
-// ConvertKit, Buttondown, or your own backend endpoint).
+// ---------- Beta signup form (Web3Forms) ----------
 (function wireSignupForm() {
   const form = document.getElementById('signup-form');
   const note = document.getElementById('form-note');
+  const submitBtn = form && form.querySelector('button[type="submit"]');
   if (!form) return;
 
   form.addEventListener('submit', async function (e) {
@@ -49,16 +68,32 @@
       return;
     }
 
-    // ---- Replace this block with a real API call, e.g.: ----
-    // await fetch('https://your-api.example.com/subscribe', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ email })
-    // });
+    if (submitBtn) submitBtn.disabled = true;
+    note.textContent = 'Submitting…';
+    note.style.color = '#a3a4b3';
 
-    note.textContent = "You're on the list. We'll be in touch.";
-    note.style.color = '#4d63ff';
-    form.reset();
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      });
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        note.textContent = "You're on the list. We'll be in touch.";
+        note.style.color = '#4d63ff';
+        form.reset();
+      } else {
+        note.textContent = data.message || 'Something went wrong. Please try again.';
+        note.style.color = '#ff6b6b';
+      }
+    } catch (err) {
+      note.textContent = 'Could not submit. Please try again.';
+      note.style.color = '#ff6b6b';
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 })();
 
