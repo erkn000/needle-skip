@@ -9,6 +9,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script>
+  // Flyer QR links may use #beta — always land at the top of the page.
+  if (location.hash === '#beta') {
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  history.scrollRestoration = 'manual';
+</script>
 </head>
 <body>
 
@@ -25,7 +32,7 @@
       </span>
       <span class="brand-name">NeedleSkip</span>
     </div>
-    <a class="btn-ghost" href="#beta">Join the beta</a>
+    <a class="btn-ghost" href="#">Join the beta</a>
   </div>
 </header>
 
@@ -41,7 +48,7 @@
         </h1>
         <p class="hero-sub">Even great songs need a break. NeedleSkip lets you pause overplayed favorites, rediscover songs you forgot, and keep your listening fresh.</p>
         <div class="hero-cta">
-          <a class="btn-primary" href="#beta">Join the beta <span aria-hidden="true">→</span></a>
+          <a class="btn-primary" href="#">Join the beta <span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -54,7 +61,7 @@
   </section>
 
   <!-- BETA SIGNUP -->
-  <section class="beta" id="beta">
+  <section class="beta">
     <div class="wrap center">
       <h2 class="section-title">Join the beta</h2>
       <p class="section-sub">Be one of the first to try NeedleSkip.</p>
@@ -124,6 +131,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=2"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>

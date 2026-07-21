@@ -115,4 +115,5 @@
 })();
 
 // ---------- Footer year ----------
+window.scrollTo(0, 0);
 document.getElementById('year').textContent = new Date().getFullYear();
