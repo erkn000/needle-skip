@@ -9,15 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<script>
-  // Flyer QR links may use #beta — always land at the top of the page.
-  if (location.hash === '#beta') {
-    history.replaceState(null, '', location.pathname + location.search);
-  }
-  history.scrollRestoration = 'manual';
-</script>
 </head>
 <body>
+
+<div id="top"></div>
 
 <header class="site-header">
   <div class="wrap header-inner">
@@ -32,7 +27,7 @@
       </span>
       <span class="brand-name">NeedleSkip</span>
     </div>
-    <a class="btn-ghost" href="#">Join the beta</a>
+    <a class="btn-ghost" href="#beta">Join the beta</a>
   </div>
 </header>
 
@@ -48,7 +43,7 @@
         </h1>
         <p class="hero-sub">Even great songs need a break. NeedleSkip lets you pause overplayed favorites, rediscover songs you forgot, and keep your listening fresh.</p>
         <div class="hero-cta">
-          <a class="btn-primary" href="#">Join the beta <span aria-hidden="true">→</span></a>
+          <a class="btn-primary" href="#beta">Join the beta <span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -58,23 +53,6 @@
     <a class="scroll-cue" href="#value" aria-label="Scroll to learn more">
       <svg width="18" height="18" viewBox="0 0 18 18"><path d="M2 6l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
-  </section>
-
-  <!-- BETA SIGNUP -->
-  <section class="beta">
-    <div class="wrap center">
-      <h2 class="section-title">Join the beta</h2>
-      <p class="section-sub">Be one of the first to try NeedleSkip.</p>
-
-      <form class="signup-form" id="signup-form" method="POST" novalidate>
-        <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off">
-        <label class="sr-only" for="email">Email address</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="email">
-        <button type="submit" class="btn-primary">Sign up <span aria-hidden="true">→</span></button>
-      </form>
-      <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
-      <p class="privacy-note">We'll only email you about NeedleSkip. Unsubscribe anytime.</p>
-    </div>
   </section>
 
   <!-- VALUE PROPS -->
@@ -122,6 +100,23 @@
     </div>
   </section>
 
+  <!-- BETA SIGNUP -->
+  <section class="beta" id="beta">
+    <div class="wrap center">
+      <h2 class="section-title">Join the beta</h2>
+      <p class="section-sub">Be one of the first to try NeedleSkip.</p>
+
+      <form class="signup-form" id="signup-form" method="POST" novalidate>
+        <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off">
+        <label class="sr-only" for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="email">
+        <button type="submit" class="btn-primary">Sign up <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
+      <p class="privacy-note">We'll only email you about NeedleSkip. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -131,6 +126,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=3"></script>
+<script src="script.js?v=4"></script>
 </body>
 </html>
