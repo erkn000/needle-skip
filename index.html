@@ -104,9 +104,8 @@
       <h2 class="section-title">Join the beta</h2>
       <p class="section-sub">Be one of the first to try NeedleSkip.</p>
 
-      <form class="signup-form" id="signup-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
-        <input type="hidden" name="access_key" value="7125c7ea-2de2-4491-8871-6b1ba6428b75">
-        <input type="hidden" name="subject" value="NeedleSkip beta signup">
+      <form class="signup-form" id="signup-form" method="POST" novalidate>
+        <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off">
         <label class="sr-only" for="email">Email address</label>
         <input type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="email">
         <button type="submit" class="btn-primary">Sign up <span aria-hidden="true">→</span></button>
@@ -125,6 +124,6 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=2"></script>
 </body>
 </html>

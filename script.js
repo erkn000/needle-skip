@@ -53,6 +53,9 @@
 
 // ---------- Beta signup form (Web3Forms) ----------
 (function wireSignupForm() {
+  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+  const ACCESS_KEY = '7125c7ea-2de2-4491-8871-6b1ba6428b75';
+
   const form = document.getElementById('signup-form');
   const note = document.getElementById('form-note');
   const submitBtn = form && form.querySelector('button[type="submit"]');
@@ -60,7 +63,8 @@
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const email = document.getElementById('email').value.trim();
+    const emailInput = document.getElementById('email');
+    const email = emailInput && emailInput.value.trim();
 
     if (!email || !email.includes('@')) {
       note.textContent = 'Please enter a valid email address.';
@@ -72,11 +76,22 @@
     note.textContent = 'Submitting…';
     note.style.color = '#a3a4b3';
 
+    const payload = {
+      access_key: ACCESS_KEY,
+      subject: 'NeedleSkip beta signup',
+      from_name: 'NeedleSkip',
+      email: email,
+      botcheck: ''
+    };
+
     try {
-      const response = await fetch(form.action, {
+      const response = await fetch(WEB3FORMS_URL, {
         method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form)
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
       const data = await response.json();
 
@@ -87,10 +102,12 @@
       } else {
         note.textContent = data.message || 'Something went wrong. Please try again.';
         note.style.color = '#ff6b6b';
+        console.error('Web3Forms error:', data);
       }
     } catch (err) {
-      note.textContent = 'Could not submit. Please try again.';
+      note.textContent = 'Could not submit. Check your connection and try again.';
       note.style.color = '#ff6b6b';
+      console.error('Web3Forms fetch failed:', err);
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }

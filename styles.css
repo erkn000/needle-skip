@@ -290,6 +290,14 @@ a{ color: inherit; }
 .signup-form input::placeholder{ color: var(--text-tertiary); }
 .signup-form input:focus{ border-color: var(--accent); }
 .signup-form input:invalid:not(:placeholder-shown){ border-color: #ff6b6b; }
+.botcheck{
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
 
 .form-note{
   min-height: 20px;
